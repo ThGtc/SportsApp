@@ -1,0 +1,153 @@
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentActivity.id">
+    <h4>Activity</h4>
+
+    <div *ngIf="currentActivity.postedBy">
+      <label><strong>Par : </strong></label>
+      <a href="/profil/{{currentActivity.postedBy.id}}">{{ currentActivity.postedBy.pseudo | titlecase }}</a>
+    </div>
+
+    <div>
+      <label><strong>Titre :</strong></label> {{ currentActivity.title }}
+    </div>
+
+    <div>
+      <label><strong>Sport:</strong></label>
+      {{ currentActivity.sport.title | titlecase }}
+    </div>
+
+    <div *ngIf="currentActivity.activityDate">
+      <label><strong>Le :</strong></label>
+      {{ currentActivity.activityDate | date }}
+    </div>
+
+    <div>
+      <label><strong>Durée:</strong></label>
+      {{ currentActivity.duration }}
+    </div>
+
+    <div>
+      <label><strong>Distance:</strong></label>
+      {{ currentActivity.distance }}
+    </div>
+
+    <div>
+      <label><strong>Description:</strong></label>
+      {{ currentActivity.description }}
+    </div>
+
+    <div>
+      <label><strong>Status:</strong></label>
+      {{ currentActivity.isPrivate ? "Public" : "Privé" }}
+    </div>
+
+    <a class="badge badge-warning" routerLink="/tutorials/{{ currentActivity.id }}">
+      Edit
+    </a>
+  </div>
+
+  <div *ngIf="!currentActivity">
+    <br/>
+    <p>Choisissez une activité</p>
+  </div>
+</div>
+
+<ng-template #editable>
+  <div *ngIf="currentActivity.id" class="edit-form">
+    <h4>Activité</h4>
+    <form>
+
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          [(ngModel)]="currentActivity.title"
+          class="form-control"
+          id="title"
+          name="title"
+          type="text"
+        />
+      </div>
+
+      <div class="form-group">
+        <option [ngValue]="null" disabled>Choisir un sport</option>
+        <option [ngValue]="1">Running</option>
+        <option *ngFor="let sport of sports" [ngValue]="sport.id">{{sport.title}}</option>
+      </div>
+
+      <div class="form-group">
+        <label for="duration">Durée (en minutes)</label>
+        <input
+          [(ngModel)]="currentActivity.duration"
+          class="form-control"
+          id="duration"
+          name="description"
+          required
+          type="number"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="distance">Distance (en km)</label>
+        <input
+          [(ngModel)]="currentActivity.distance"
+          class="form-control"
+          id="distance"
+          name="description"
+          required
+          type="number"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+          [(ngModel)]="currentActivity.description"
+          class="form-control"
+          id="description"
+          name="description"
+          type="text"
+        />
+      </div>
+
+      <div class="form-group">
+        <label><strong>Status:</strong></label>
+        {{ currentActivity.isPrivate ? "Public" : "Privé" }}
+      </div>
+    </form>
+
+    <button
+      (click)="updatePrivacyStatus(false)"
+      *ngIf="currentActivity.isPrivate"
+      class="badge badge-primary mr-2"
+    >
+      Rendre privé
+    </button>
+
+    <button
+      (click)="updatePrivacyStatus(true)"
+      *ngIf="!currentActivity.isPrivate"
+      class="badge badge-primary mr-2"
+    >
+      Rendre public
+    </button>
+
+    <button (click)="deleteActivity()" class="badge badge-danger mr-2">
+      Supprimer l'activité
+    </button>
+
+    <button
+      (click)="updateActivity()"
+      class="badge badge-success mb-2"
+      type="submit"
+    >
+      Modifier
+    </button>
+
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentActivity.id">
+    <br/>
+    <p>Impossible d'afficher l'activité</p>
+  </div>
+</ng-template>

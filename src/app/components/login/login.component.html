@@ -1,0 +1,63 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <form
+      #f="ngForm"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      *ngIf="!isLoggedIn"
+      name="form"
+      novalidate
+    >
+
+      <div class="form-group">
+        <label for="pseudo">Pseudo</label>
+        <input
+          #pseudo="ngModel"
+          [(ngModel)]="login.pseudo"
+          [ngClass]="{ 'is-invalid': f.submitted && pseudo.errors }"
+          class="form-control"
+          id="pseudo"
+          name="pseudo"
+          required
+          type="text"
+        />
+        <div *ngIf="pseudo.errors && f.submitted" class="invalid-feedback">
+          Il me faut un pseudo !
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          #password="ngModel"
+          [(ngModel)]="login.password"
+          [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+          class="form-control"
+          id="password"
+          minlength="4"
+          name="password"
+          required
+          type="password"
+        />
+        <div *ngIf="password.errors && f.submitted" class="invalid-feedback">
+          <div *ngIf="password.errors['required']">Il me faut un mot de passe !</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">
+          Login
+        </button>
+      </div>
+
+      <div class="form-group">
+        <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger" role="alert">
+          Echec : {{ errorMessage }}
+        </div>
+      </div>
+    </form>
+
+    <div *ngIf="isLoggedIn" class="alert alert-success">
+      Bien connecté !
+    </div>
+  </div>
+</div>

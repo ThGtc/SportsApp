@@ -1,0 +1,162 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <form
+      *ngIf="!isSuccessful"
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+
+      <div class="form-group">
+        <label for="pseudo">Pseudo</label>
+        <input
+          type="text"
+          class="form-control"
+          name="pseudo"
+          [(ngModel)]="registerForm.pseudo"
+          required
+          minlength="3"
+          maxlength="20"
+          #pseudo="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && pseudo.errors }"
+        />
+        <div class="invalid-feedback" *ngIf="pseudo.errors && f.submitted">
+          <div *ngIf="pseudo.errors['required']">Le pseudo est obligatoire !</div>
+          <div *ngIf="pseudo.errors['minlength']">
+            Le pseudo doit faire au moins 3 caractères !
+          </div>
+          <div *ngIf="pseudo.errors['maxlength']">
+            Le pseudo ne doit pas dépasser 20 caractères !
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="firstName">Prénom</label>
+        <input
+          type="text"
+          class="form-control"
+          name="firstName"
+          [(ngModel)]="registerForm.firstName"
+          required
+          minlength="1"
+          maxlength="50"
+          #firstName="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && firstName.errors }"
+        />
+        <div class="invalid-feedback" *ngIf="firstName.errors && f.submitted">
+          <div *ngIf="firstName.errors['required']">Le prénom est obligatoire !</div>
+          <div *ngIf="firstName.errors['minlength']">
+            Le prénom doit faire au moins 1 caractères !
+          </div>
+          <div *ngIf="firstName.errors['maxlength']">
+            Le prénom ne doit pas dépasser 50 caractères !
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Nom</label>
+        <input
+          type="text"
+          class="form-control"
+          name="lastName"
+          [(ngModel)]="registerForm.lastName"
+          required
+          minlength="1"
+          maxlength="50"
+          #lastName="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && lastName.errors }"
+        />
+        <div class="invalid-feedback" *ngIf="lastName.errors && f.submitted">
+          <div *ngIf="lastName.errors['required']">Le nom est obligatoire !</div>
+          <div *ngIf="lastName.errors['minlength']">
+            Le nom doit faire au moins 1 caractères !
+          </div>
+          <div *ngIf="lastName.errors['maxlength']">
+            Le nom ne doit pas dépasser 50 caractères !
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          [(ngModel)]="registerForm.mail"
+          required
+          email
+          #email="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
+        />
+        <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
+          <div *ngIf="email.errors['required']">L'email est obligatoire</div>
+          <div *ngIf="email.errors['email']">
+            L'email doit être une adresse mail valide !
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          [(ngModel)]="registerForm.password"
+          required
+          minlength="6"
+          #password="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+        />
+        <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
+          <div *ngIf="password.errors['required']">Le mot de passe est obligatoire !</div>
+          <div *ngIf="password.errors['minlength']">
+            Le mot de passe doit comporter au moins 6 lettres
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="birthDate">Date de naissance</label>
+        <input
+          type="date"
+          class="form-control"
+          name="birthDate"
+          id="birthDate"
+          [(ngModel)]="registerForm.birthDate"
+          required
+          #birthDate="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && birthDate.errors }"
+        />
+        <div class="invalid-feedback" *ngIf="birthDate.errors && f.submitted">
+          <div *ngIf="birthDate.errors['required']">La date de naissance est obligatoire !</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="activityChoice">Sport favori :</label>
+        <select id="activityChoice">
+          <option [ngValue]="null" disabled>Choisir un sport</option>
+          <!--<option [ngValue]="1">Running</option>-->
+          <option *ngFor="let sport of sports" [ngValue]="sport.id">{{sport.title}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">S'inscrire !</button>
+      </div>
+
+      <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+        L'inscription a échouée !<br/>{{ errorMessage }}
+      </div>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      Vous êtes bien inscrit!
+    </div>
+  </div>
+</div>

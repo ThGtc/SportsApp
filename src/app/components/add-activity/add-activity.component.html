@@ -1,0 +1,81 @@
+<div>
+  <div class="submit-form">
+    <div *ngIf="!submitted">
+
+      <div class="form-group">
+        <label for="title">Titre</label>
+        <input
+          [(ngModel)]="activity.title"
+          class="form-control"
+          id="title"
+          name="title"
+          required
+          type="text"
+        />
+      </div>
+
+      <div class="form-group">
+        <select id="activityChoice">
+          <option [ngValue]="null" disabled>Choisir un sport</option>
+          <option *ngFor="let sport of sports" [ngValue]="sport.id">{{sport.title}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="duration">Durée (en minutes)</label>
+        <input
+          [(ngModel)]="activity.duration"
+          class="form-control"
+          id="duration"
+          name="description"
+          required
+          type="number"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="distance">Distance (en km)</label>
+        <input
+          [(ngModel)]="activity.distance"
+          class="form-control"
+          id="distance"
+          name="description"
+          required
+          type="number"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+          [(ngModel)]="activity.description"
+          class="form-control"
+          id="description"
+          name="description"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="activityDate">Date</label>
+        <input
+          [(ngModel)]="activity.activityDate"
+          class="form-control"
+          id="activityDate"
+          name="activityDate"
+          required
+          type="date"
+        />
+      </div>
+
+      <button (click)="saveActivity()" class="btn btn-success">Ajouter</button>
+
+    </div>
+
+    <div *ngIf="submitted">
+      <h4>L'activité a bien été enregistrée !</h4>
+      <button (click)="newActivity()" class="btn btn-success">Retour</button>
+    </div>
+
+  </div>
+</div>

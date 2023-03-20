@@ -1,0 +1,109 @@
+<ng-container *ngIf="currentUser">
+  <div *ngIf="this.isLogged; else loggedOut" class="container" xmlns="http://www.w3.org/1999/html">
+    <header class="jumbotron">
+      <h2>
+        <strong>{{ currentUser.pseudo }}</strong>
+      </h2>
+    </header>
+
+    <form>
+      <div class="form-group">
+        <label class="fw-bold fs-4" for="mail">Email :</label>
+        <input [(ngModel)]="currentUser.mail"
+               [disabled]="!isEditable"
+               [ngClass]="{'border-0': !isEditable}"
+               [ngModelOptions]="{standalone: true}"
+               class="form-control-lg text-black"
+               id="mail"
+               type="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="fw-bold fs-4" for="firstName">Prénom :</label>
+        <input [(ngModel)]="currentUser.firstName"
+               [disabled]="!isEditable"
+               [ngClass]="{'border-0': !isEditable}"
+               [ngModelOptions]="{standalone: true}"
+               class="form-control-lg text-black"
+               id="firstName"
+               type="text"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="fw-bold fs-4" for="lastName">Nom :</label>
+        <input [(ngModel)]="currentUser.lastName"
+               [disabled]="!isEditable"
+               [ngClass]="{'border-0': !isEditable}"
+               [ngModelOptions]="{standalone: true}"
+               class="form-control-lg text-black"
+               id="lastName"
+               type="text"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="fw-bold fs-4" for="birthDate">Date de naissance :</label>
+        <input [(ngModel)]="currentUser.birthDate"
+               [disabled]="!isEditable"
+               [ngClass]="{'border-0': !isEditable}"
+               [ngModelOptions]="{standalone: true}"
+               class="form-control-lg text-black"
+               id="birthDate"
+               type="date"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="fw-bold fs-4" for="faveSport">Sport favori :</label>
+        <input (ngModelChange)="currentUser.favoriteSport.title=$event"
+               *ngIf="!isEditable"
+               [ngClass]="{'border-0': !isEditable}"
+               [ngModelOptions]="{standalone: true}"
+               [ngModel]="currentUser.favoriteSport.title | titlecase"
+               class="form-control-lg text-black"
+               disabled
+               id="faveSport"
+               type="text"
+        />
+        <select *ngIf="isEditable"
+                id="faveSport">
+          <option [ngValue]="null" disabled>Choisir un sport</option>
+          <!--<option [ngValue]="1">Running</option>-->
+          <ng-container *ngFor="let sport of sports">
+            <option *ngIf="currentUser.favoriteSport.id != sport.id"
+                    [ngValue]="sport.id"
+            >
+              {{sport.title}}
+            </option>
+            <option *ngIf="currentUser.favoriteSport.id == sport.id"
+                    [ngValue]="sport.id"
+                    selected>
+              {{sport.title}}
+            </option>
+          </ng-container>
+        </select>
+      </div>
+    </form>
+
+    <div *ngIf="ownProfile" class="btn-group">
+      <button (click)="editProfile()"
+              *ngIf="!isEditable"
+              class="btn btn-secondary">
+        Modifier
+      </button>
+
+      <button (click)="onSubmit()"
+              *ngIf="isEditable"
+              class="btn btn-success">
+        Enregistrer
+      </button>
+    </div>
+
+  </div>
+</ng-container>
+
+<ng-template #loggedOut>
+  Il faut être connecté pour pouvoir accéder à cette page !
+</ng-template>
