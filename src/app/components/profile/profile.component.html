@@ -1,4 +1,4 @@
-<ng-container *ngIf="currentUser">
+<ng-container *ngIf="currentUser ; else loggedOut">
   <div *ngIf="this.isLogged; else loggedOut" class="container" xmlns="http://www.w3.org/1999/html">
     <header class="jumbotron">
       <h2>
@@ -103,7 +103,7 @@
 
   </div>
 </ng-container>
-
 <ng-template #loggedOut>
   Il faut être connecté pour pouvoir accéder à cette page !
 </ng-template>
+

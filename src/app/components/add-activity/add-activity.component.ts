@@ -20,7 +20,7 @@ export class AddActivityComponent implements OnInit {
   activity: Activity = {
     title: '',
     sport: '',
-    duration: 0,
+    durationDetail: {hour: 0, minute: 0, second: 0},
     distance: 0,
     description: '',
     activityDate: new Date(),
@@ -31,6 +31,14 @@ export class AddActivityComponent implements OnInit {
 
   constructor(private activityService: ActivityService, private sportService: SportsService,
               private storageService: StorageService, private userService: UserService) {
+  }
+
+  get duration() {
+    return this.activity.durationDetail || {hour: 0, minute: 0, second: 0};
+  }
+
+  set duration(value) {
+    this.activity.durationDetail = value;
   }
 
   ngOnInit(): void {
@@ -63,11 +71,13 @@ export class AddActivityComponent implements OnInit {
     choice = document?.getElementById('activityChoice').selectedOptions[0].getAttribute('ng-reflect-ng-value');
     let activityId: number;
     activityId = +choice;
+    // @ts-ignore
+    let durationSeconds = ((3600 * this.activity.durationDetail.hour) + (this.activity.durationDetail.minute * 60) + (this.activity.durationDetail.second));
 
     const data = {
       title: this.activity.title,
       sport: this.sports?.find(x => x.id === activityId),
-      duration: this.activity.duration,
+      duration: durationSeconds,
       distance: this.activity.distance,
       description: this.activity.description,
       activityDate: this.activity.activityDate,
@@ -75,7 +85,6 @@ export class AddActivityComponent implements OnInit {
       isPrivate: this.activity.isPrivate,
       postedBy: this.user,
     };
-
 
     this.activityService.create(data)
       .subscribe({
@@ -92,7 +101,7 @@ export class AddActivityComponent implements OnInit {
     this.activity = {
       title: '',
       sport: '',
-      duration: 0,
+      durationDetail: {hour: 0, minute: 0, second: 0},
       distance: 0,
       description: '',
       activityDate: new Date(),

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../_services/auth.service";
 import {StorageService} from "../../_services/storage.service";
 import {User} from "../../models/user.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
 
-  constructor(private authService: AuthService, private storageService: StorageService) {
+  constructor(private authService: AuthService, private storageService: StorageService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -34,7 +35,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(pseudo, password).subscribe({
       next: data => {
         this.storageService.saveUser(data);
-
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.reloadPage();

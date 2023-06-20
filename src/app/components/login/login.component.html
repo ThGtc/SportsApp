@@ -1,5 +1,8 @@
-<div class="col-md-12">
-  <div class="card card-container">
+<div class="col-md-6 offset-md-3">
+  <div class="card card-body">
+
+    <h4>Se connecter</h4>
+
     <form
       #f="ngForm"
       (ngSubmit)="f.form.valid && onSubmit()"
@@ -43,7 +46,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group mt-3">
         <button class="btn btn-primary btn-block">
           Login
         </button>
@@ -57,7 +60,7 @@
     </form>
 
     <div *ngIf="isLoggedIn" class="alert alert-success">
-      Bien connecté !
+      Connexion réussie !
     </div>
   </div>
 </div>

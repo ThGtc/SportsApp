@@ -1,27 +1,30 @@
-<div class="col-md-12">
-  <div class="card card-container">
+<div class="col-md-6 offset-md-3">
+  <div class="card card-body">
+
+    <h4>S'inscrire</h4>
+
     <form
+      #f="ngForm"
+      (ngSubmit)="f.form.valid && onSubmit()"
       *ngIf="!isSuccessful"
       name="form"
-      (ngSubmit)="f.form.valid && onSubmit()"
-      #f="ngForm"
       novalidate
     >
 
       <div class="form-group">
         <label for="pseudo">Pseudo</label>
         <input
-          type="text"
-          class="form-control"
-          name="pseudo"
-          [(ngModel)]="registerForm.pseudo"
-          required
-          minlength="3"
-          maxlength="20"
           #pseudo="ngModel"
+          [(ngModel)]="registerForm.pseudo"
           [ngClass]="{ 'is-invalid': f.submitted && pseudo.errors }"
+          class="form-control"
+          maxlength="20"
+          minlength="3"
+          name="pseudo"
+          required
+          type="text"
         />
-        <div class="invalid-feedback" *ngIf="pseudo.errors && f.submitted">
+        <div *ngIf="pseudo.errors && f.submitted" class="invalid-feedback">
           <div *ngIf="pseudo.errors['required']">Le pseudo est obligatoire !</div>
           <div *ngIf="pseudo.errors['minlength']">
             Le pseudo doit faire au moins 3 caractères !
@@ -35,17 +38,17 @@
       <div class="form-group">
         <label for="firstName">Prénom</label>
         <input
-          type="text"
-          class="form-control"
-          name="firstName"
-          [(ngModel)]="registerForm.firstName"
-          required
-          minlength="1"
-          maxlength="50"
           #firstName="ngModel"
+          [(ngModel)]="registerForm.firstName"
           [ngClass]="{ 'is-invalid': f.submitted && firstName.errors }"
+          class="form-control"
+          maxlength="50"
+          minlength="1"
+          name="firstName"
+          required
+          type="text"
         />
-        <div class="invalid-feedback" *ngIf="firstName.errors && f.submitted">
+        <div *ngIf="firstName.errors && f.submitted" class="invalid-feedback">
           <div *ngIf="firstName.errors['required']">Le prénom est obligatoire !</div>
           <div *ngIf="firstName.errors['minlength']">
             Le prénom doit faire au moins 1 caractères !
@@ -59,17 +62,17 @@
       <div class="form-group">
         <label for="lastName">Nom</label>
         <input
-          type="text"
-          class="form-control"
-          name="lastName"
-          [(ngModel)]="registerForm.lastName"
-          required
-          minlength="1"
-          maxlength="50"
           #lastName="ngModel"
+          [(ngModel)]="registerForm.lastName"
           [ngClass]="{ 'is-invalid': f.submitted && lastName.errors }"
+          class="form-control"
+          maxlength="50"
+          minlength="1"
+          name="lastName"
+          required
+          type="text"
         />
-        <div class="invalid-feedback" *ngIf="lastName.errors && f.submitted">
+        <div *ngIf="lastName.errors && f.submitted" class="invalid-feedback">
           <div *ngIf="lastName.errors['required']">Le nom est obligatoire !</div>
           <div *ngIf="lastName.errors['minlength']">
             Le nom doit faire au moins 1 caractères !
@@ -83,16 +86,16 @@
       <div class="form-group">
         <label for="email">Email</label>
         <input
-          type="email"
-          class="form-control"
-          name="email"
-          [(ngModel)]="registerForm.mail"
-          required
-          email
           #email="ngModel"
+          [(ngModel)]="registerForm.mail"
           [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
+          class="form-control"
+          email
+          name="email"
+          required
+          type="email"
         />
-        <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
+        <div *ngIf="email.errors && f.submitted" class="invalid-feedback">
           <div *ngIf="email.errors['required']">L'email est obligatoire</div>
           <div *ngIf="email.errors['email']">
             L'email doit être une adresse mail valide !
@@ -103,16 +106,16 @@
       <div class="form-group">
         <label for="password">Mot de passe</label>
         <input
-          type="password"
-          class="form-control"
-          name="password"
-          [(ngModel)]="registerForm.password"
-          required
-          minlength="6"
           #password="ngModel"
+          [(ngModel)]="registerForm.password"
           [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+          class="form-control"
+          minlength="6"
+          name="password"
+          required
+          type="password"
         />
-        <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
+        <div *ngIf="password.errors && f.submitted" class="invalid-feedback">
           <div *ngIf="password.errors['required']">Le mot de passe est obligatoire !</div>
           <div *ngIf="password.errors['minlength']">
             Le mot de passe doit comporter au moins 6 lettres
@@ -123,22 +126,22 @@
       <div class="form-group">
         <label for="birthDate">Date de naissance</label>
         <input
-          type="date"
-          class="form-control"
-          name="birthDate"
-          id="birthDate"
-          [(ngModel)]="registerForm.birthDate"
-          required
           #birthDate="ngModel"
+          [(ngModel)]="registerForm.birthDate"
           [ngClass]="{ 'is-invalid': f.submitted && birthDate.errors }"
+          class="form-control"
+          id="birthDate"
+          name="birthDate"
+          required
+          type="date"
         />
-        <div class="invalid-feedback" *ngIf="birthDate.errors && f.submitted">
+        <div *ngIf="birthDate.errors && f.submitted" class="invalid-feedback">
           <div *ngIf="birthDate.errors['required']">La date de naissance est obligatoire !</div>
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="activityChoice">Sport favori :</label>
+      <div class="form-group mt-3">
+        <label class="pe-2" for="activityChoice">Sport favori :</label>
         <select id="activityChoice">
           <option [ngValue]="null" disabled>Choisir un sport</option>
           <!--<option [ngValue]="1">Running</option>-->
@@ -146,16 +149,16 @@
         </select>
       </div>
 
-      <div class="form-group">
+      <div class="form-group mt-2">
         <button class="btn btn-primary btn-block">S'inscrire !</button>
       </div>
 
-      <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+      <div *ngIf="f.submitted && isSignUpFailed" class="alert alert-warning">
         L'inscription a échouée !<br/>{{ errorMessage }}
       </div>
     </form>
 
-    <div class="alert alert-success" *ngIf="isSuccessful">
+    <div *ngIf="isSuccessful" class="alert alert-success">
       Vous êtes bien inscrit!
     </div>
   </div>

@@ -13,6 +13,8 @@ import {LoginComponent} from './components/login/login.component';
 import {RegisterComponent} from './components/register/register.component';
 import {ProfileComponent} from './components/profile/profile.component';
 import {httpInterceptorProviders} from "./_helpers/http.interceptor";
+import {DatePipe} from "@angular/common";
+import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -29,10 +31,12 @@ import {httpInterceptorProviders} from "./_helpers/http.interceptor";
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbCollapseModule
   ],
   providers: [
     httpInterceptorProviders,
+    DatePipe,
     {provide: LOCALE_ID, useValue: 'fr-FR'},
   ],
   bootstrap: [AppComponent]

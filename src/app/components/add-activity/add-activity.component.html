@@ -1,8 +1,13 @@
-<div>
-  <div class="submit-form">
+<div class="col-md-10 offset-md-1">
+  <div class="submit-form card card-body">
     <div *ngIf="!submitted">
 
       <div class="form-group">
+
+        <h4>Ajouter une activité</h4>
+        <p *ngIf="user === undefined" class="fst-italic">Vous n'êtes pas connecté, l'activité sera postée anonymement
+          !</p>
+
         <label for="title">Titre</label>
         <input
           [(ngModel)]="activity.title"
@@ -14,26 +19,55 @@
         />
       </div>
 
-      <div class="form-group">
+      <div class="form-group mt-3">
+        <label class="pe-2" for="activityChoice">Type d'activité</label>
         <select id="activityChoice">
           <option [ngValue]="null" disabled>Choisir un sport</option>
           <option *ngFor="let sport of sports" [ngValue]="sport.id">{{sport.title}}</option>
         </select>
       </div>
 
-      <div class="form-group">
-        <label for="duration">Durée (en minutes)</label>
-        <input
-          [(ngModel)]="activity.duration"
-          class="form-control"
-          id="duration"
-          name="description"
-          required
-          type="number"
-        />
+      <div class="input-group py-3">
+
+        <div class="col-md-4">
+          <label for="duration-hours">Heures</label>
+          <input
+            [(ngModel)]="duration.hour"
+            class="form-control"
+            id="duration-hours"
+            name="description"
+            type="number"
+            value="0"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="duration-minutes">Minutes</label>
+          <input
+            [(ngModel)]="duration.minute"
+            class="form-control"
+            id="duration-minutes"
+            name="description"
+            required
+            type="number"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="duration-seconds">Secondes</label>
+          <input
+            [(ngModel)]="duration.second"
+            class="form-control"
+            id="duration-seconds"
+            name="description"
+            required
+            type="number"
+          />
+        </div>
+
       </div>
 
-      <div class="form-group">
+      <div class="form-group pb-3">
         <label for="distance">Distance (en km)</label>
         <input
           [(ngModel)]="activity.distance"
@@ -45,7 +79,7 @@
         />
       </div>
 
-      <div class="form-group">
+      <div class="form-group pb-3">
         <label for="description">Description</label>
         <input
           [(ngModel)]="activity.description"
@@ -56,19 +90,19 @@
         />
       </div>
 
-      <div class="form-group">
-        <label for="activityDate">Date</label>
+      <div class="form-group pb-3">
+        <label for="activityDate">Date & Heure de l'activité</label>
         <input
           [(ngModel)]="activity.activityDate"
           class="form-control"
           id="activityDate"
           name="activityDate"
           required
-          type="date"
+          type="datetime-local"
         />
       </div>
 
-      <button (click)="saveActivity()" class="btn btn-success">Ajouter</button>
+      <button (click)="saveActivity()" class="btn btn-success mt-1">Ajouter</button>
 
     </div>
 

@@ -4,6 +4,8 @@ import {ActivityService} from "../../services/activity.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Sports} from "../../models/sports.model";
 import {SportsService} from "../../services/sports.service";
+import {StorageService} from "../../_services/storage.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-activity-details',
@@ -19,21 +21,35 @@ export class ActivityDetailsComponent implements OnInit {
     postedBy: '',
     sport: '',
     duration: 0,
+    durationDetail: {hour: 0, minute: 0, second: 0},
     distance: 0,
     description: '',
     activityDate: new Date(),
     relatedPic: '',
     isPrivate: false,
   }
+  @Input() isLogged = !!this.storageService.getUser().id;
+  @Input() ownProfile = false;
 
+  deleteActivityMessageDisplay = true;
   message = '';
   sports?: Sports[];
 
   constructor(
     private activityService: ActivityService,
+    private storageService: StorageService,
     private route: ActivatedRoute,
     private router: Router,
-    private sportService: SportsService) {
+    private sportService: SportsService,
+    private datePipe: DatePipe) {
+  }
+
+  get activityDuration() {
+    return this.currentActivity.durationDetail || {hour: 0, minute: 0, second: 0};
+  }
+
+  toggleDeleteMessage(): void {
+    this.deleteActivityMessageDisplay = !this.deleteActivityMessageDisplay;
   }
 
   ngOnInit(): void {
@@ -42,14 +58,12 @@ export class ActivityDetailsComponent implements OnInit {
       this.onGetSports();
       this.getActivity(this.route.snapshot.params["id"]);
     }
-
   }
 
   onGetSports() {
     this.sportService.getSports().subscribe({
       next: (sports) => {
         this.sports = sports;
-        console.log(sports);
       },
       error: (e) => console.error(e)
     });
@@ -60,8 +74,12 @@ export class ActivityDetailsComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.currentActivity = data;
+          this.formatDuration(data.duration, true);
+          if (this.currentActivity.postedBy !== null) {
+            this.ownProfile = this.storageService.getUser().id === this.currentActivity.postedBy.id;
+          }
         },
-        error: (e) => console.error(e)
+        error: (e) => this.router.navigate(['/'])
       });
   }
 
@@ -112,9 +130,34 @@ export class ActivityDetailsComponent implements OnInit {
       .subscribe({
         next: (res) => {
           console.log(res);
-          this.router.navigate(['/activities']);
+          this.router.navigate(['/activites']);
         },
         error: (e) => console.error(e)
       });
   }
+
+  formatDuration(durationInSeconds: number | undefined, editActivity: boolean): string {
+    if (durationInSeconds == null) {
+      return '';
+    }
+    const hours = Math.floor(durationInSeconds / 3600);
+    const minutes = Math.floor((durationInSeconds % 3600) / 60);
+    const seconds = durationInSeconds % 60;
+    if (editActivity) {
+      this.currentActivity.durationDetail = {hour: hours, minute: minutes, second: seconds};
+      return '';
+    }
+    switch (true) {
+      case hours == 0 && minutes == 0:
+        return `${seconds.toString().padStart(2, '0')}sec`;
+        break;
+      case hours == 0:
+        return `${minutes.toString().padStart(2, '0')}min${seconds.toString().padStart(2, '0')}sec`;
+        break;
+      default:
+        return `${hours}h${minutes.toString().padStart(2, '0')}min${seconds.toString().padStart(2, '0')}sec`;
+        break;
+    }
+  }
+
 }

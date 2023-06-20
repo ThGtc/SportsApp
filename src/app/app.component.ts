@@ -7,10 +7,12 @@ import {AuthService} from "./_services/auth.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'SportsIHM';
   isLoggedIn = false;
   pseudo?: string;
+  isOpen? = false;
 
   constructor(private storageService: StorageService, private authService: AuthService) {
   }
