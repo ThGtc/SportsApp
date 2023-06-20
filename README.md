@@ -1,4 +1,4 @@
-Projet perso d'application de suivi des activités sportives - Partie front (not quite finished)
+Projet perso d'application de suivi des activités sportives - Partie front (not quite finished / (<a href="https://github.com/ThGtc/SportsAPI">back is over here</a>)
 
 Interface web réalisée avec Angular/Boostrap, communiquant avec l'API back-end
 pour gérer les activités, l'inscription puis la connexion & gestion des comptes.
